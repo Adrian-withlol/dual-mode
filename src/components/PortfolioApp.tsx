@@ -3,6 +3,7 @@
 import { useCallback, useState } from "react";
 import Overview from "./overview/Overview";
 import Terminal from "./terminal/Terminal";
+import Footer from "./Footer";
 
 export type View = "overview" | "terminal";
 
@@ -40,6 +41,8 @@ export default function PortfolioApp({
           <Terminal active={view === "terminal"} onGoHome={() => goTo("overview")} />
         </div>
       </main>
+
+      <Footer dark={view === "terminal"} />
     </div>
   );
 }
@@ -102,7 +105,8 @@ function TabButton({
   dark: boolean;
   onClick: () => void;
 }) {
-  const base = "rounded-full px-3 py-1.5 text-sm font-medium transition-colors";
+  const base =
+    "min-h-11 rounded-full px-4 text-sm font-medium transition-colors flex items-center";
   const activeClass = dark
     ? "bg-term-accent/15 text-term-accent"
     : "bg-ink text-paper";

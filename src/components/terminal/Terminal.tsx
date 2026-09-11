@@ -245,7 +245,7 @@ export default function Terminal({
             autoCapitalize="off"
             aria-label="Terminal command input"
             placeholder="Type a command, e.g. help"
-            className="flex-1 bg-transparent font-mono text-sm text-term-fg placeholder:text-term-fg-dim focus:outline-none"
+            className="min-h-11 flex-1 bg-transparent font-mono text-base text-term-fg placeholder:text-term-fg-dim focus:outline-none"
           />
         </div>
 
@@ -258,7 +258,7 @@ export default function Terminal({
               key={name}
               type="button"
               onClick={() => runShortcut(name)}
-              className="shrink-0 rounded-full border border-term-border px-3 py-1 font-mono text-xs text-term-fg-dim transition-colors hover:border-term-accent-dim hover:text-term-fg"
+              className="flex min-h-9 shrink-0 items-center rounded-full border border-term-border px-3.5 font-mono text-xs text-term-fg-dim transition-colors hover:border-term-accent-dim hover:text-term-fg"
             >
               {name}
             </button>

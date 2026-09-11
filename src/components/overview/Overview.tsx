@@ -26,10 +26,16 @@ export default function Overview({
         <p className="mt-1 text-sm text-ink-faint">{d.location}</p>
 
         <div className="mt-8 flex flex-wrap items-center gap-3">
+          <a
+            href="#projects"
+            className="inline-flex min-h-11 items-center gap-2 rounded-md bg-ink px-5 py-2.5 text-sm font-medium text-paper transition-colors hover:bg-accent-strong"
+          >
+            Explore my projects
+          </a>
           <button
             type="button"
             onClick={onOpenTerminal}
-            className="inline-flex items-center gap-2 rounded-md bg-ink px-4 py-2.5 font-mono text-sm text-paper transition-colors hover:bg-accent-strong"
+            className="inline-flex min-h-11 items-center gap-2 rounded-md border border-ink-faint px-4 py-2.5 font-mono text-sm text-ink-muted transition-colors hover:border-accent hover:text-accent-strong"
           >
             <span aria-hidden>&gt;_</span> Open the terminal
           </button>
@@ -39,7 +45,7 @@ export default function Overview({
               href={c.href}
               target="_blank"
               rel="noreferrer noopener"
-              className="rounded-md border border-hairline px-4 py-2.5 text-sm text-ink-muted transition-colors hover:border-accent hover:text-accent-strong"
+              className="inline-flex min-h-11 items-center rounded-md border border-ink-faint px-4 py-2.5 text-sm text-ink-muted transition-colors hover:border-accent hover:text-accent-strong"
             >
               {c.label}
             </a>
@@ -100,7 +106,7 @@ export default function Overview({
         </div>
       </Section>
 
-      <Section title="Projects">
+      <Section title="Projects" id="projects">
         <div className="space-y-5">
           {d.projects.map((p) => (
             <div
@@ -164,7 +170,7 @@ export default function Overview({
         </div>
       </Section>
 
-      <footer className="mt-20 border-t border-hairline pt-8">
+      <div className="mt-20 border-t border-hairline pt-8">
         <p className="text-sm text-ink-faint">
           Prefer exploring by typing?{" "}
           <button
@@ -176,20 +182,22 @@ export default function Overview({
           </button>{" "}
           and try <code className="font-mono">help</code>.
         </p>
-      </footer>
+      </div>
     </div>
   );
 }
 
 function Section({
   title,
+  id,
   children,
 }: {
   title: string;
+  id?: string;
   children: React.ReactNode;
 }) {
   return (
-    <section className="mb-14">
+    <section id={id} className="mb-14 scroll-mt-20">
       <h2 className="mb-5 text-sm font-semibold uppercase tracking-[0.15em] text-ink-faint">
         {title}
       </h2>
