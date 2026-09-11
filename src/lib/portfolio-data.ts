@@ -1,12 +1,9 @@
 /**
  * Single source of truth for portfolio content.
  *
- * This file feeds the Overview page, every terminal command, and the system
- * prompt for the /api/ask AI assistant. Edit this file to update the site —
- * there is nowhere else content should be duplicated.
- *
- * Keep every claim here honest and verifiable. The AI assistant is instructed
- * to answer only from these facts and to say so when something isn't covered.
+ * This file feeds the Overview page and every terminal command. Edit this
+ * file to update the site — there is nowhere else content should be
+ * duplicated. Keep every claim here honest and verifiable.
  */
 
 export type SkillLevel = "learning" | "foundational" | "comfortable";
@@ -177,45 +174,3 @@ export const portfolioData: PortfolioData = {
     { label: "LinkedIn", href: "https://www.linkedin.com/in/adrian-vela-351a86433" },
   ],
 };
-
-/** Flat, human-readable dump of the data above, used as AI system-prompt context. */
-export function portfolioFactsForAI(): string {
-  const d = portfolioData;
-  const lines: string[] = [];
-
-  lines.push(`Name: ${d.name}`);
-  lines.push(`Headline: ${d.headline}`);
-  lines.push(`Location: ${d.location}`);
-  lines.push(`Summary: ${d.summary}`);
-
-  lines.push("\nCurrent focus:");
-  d.currentFocus.forEach((f) => lines.push(`- ${f}`));
-
-  lines.push("\nEducation:");
-  d.education.forEach((e) =>
-    lines.push(`- ${e.degree} at ${e.institution} (${e.status}, ${e.period})`)
-  );
-
-  lines.push("\nSkills:");
-  d.skills.forEach((s) =>
-    lines.push(`- ${s.name} [${SKILL_LEVEL_LABEL[s.level]}]: ${s.note}`)
-  );
-
-  lines.push("\nProjects:");
-  d.projects.forEach((p) => {
-    lines.push(`- ${p.name} [${p.statusLabel}]: ${p.summary}`);
-    p.details.forEach((det) => lines.push(`  - ${det}`));
-  });
-
-  lines.push("\nExperience:");
-  d.experience.forEach((e) =>
-    lines.push(`- ${e.role}, ${e.org} (${e.period}): ${e.description}`)
-  );
-
-  if (d.contact.length > 0) {
-    lines.push("\nPublic contact links:");
-    d.contact.forEach((c) => lines.push(`- ${c.label}: ${c.href}`));
-  }
-
-  return lines.join("\n");
-}

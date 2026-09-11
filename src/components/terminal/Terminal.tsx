@@ -16,9 +16,8 @@ import {
   projectsText,
   skillsText,
 } from "./commands";
-import { streamAsk } from "./ask-stream";
 
-type LineKind = "input" | "output" | "error" | "system" | "ai";
+type LineKind = "input" | "output" | "error" | "system";
 
 interface TerminalLine {
   id: number;
@@ -38,7 +37,6 @@ const MOBILE_SHORTCUTS = [
   "projects",
   "education",
   "experience",
-  "ask",
   "clear",
   "home",
 ];
@@ -61,11 +59,9 @@ export default function Terminal({
   ]);
   const [input, setInput] = useState("");
   const [history, setHistory] = useState<string[]>([]);
-  const [isStreaming, setIsStreaming] = useState(false);
 
   const inputRef = useRef<HTMLInputElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
-  const abortRef = useRef<AbortController | null>(null);
   const historyIndexRef = useRef<number | null>(null);
   const draftBeforeHistoryRef = useRef("");
 
@@ -82,65 +78,8 @@ export default function Terminal({
     setLines((prev) => [...prev, { id: nextId(), kind, text }]);
   }, []);
 
-  const appendMutableLine = useCallback((kind: LineKind, initialText: string) => {
-    const id = nextId();
-    setLines((prev) => [...prev, { id, kind, text: initialText }]);
-    return (updater: (prevText: string) => string, nextKind?: LineKind) => {
-      setLines((prev) =>
-        prev.map((l) =>
-          l.id === id
-            ? { ...l, text: updater(l.text), kind: nextKind ?? l.kind }
-            : l
-        )
-      );
-    };
-  }, []);
-
-  const runAsk = useCallback(
-    async (question: string) => {
-      if (!question) {
-        appendLine("error", "Usage: ask [question] — try: ask what is he studying?");
-        return;
-      }
-
-      const controller = new AbortController();
-      abortRef.current = controller;
-      setIsStreaming(true);
-
-      const setAiText = appendMutableLine("ai", "Thinking…");
-      let firstDelta = true;
-
-      try {
-        for await (const evt of streamAsk(question, controller.signal)) {
-          if (evt.event === "delta") {
-            if (firstDelta) {
-              firstDelta = false;
-              setAiText(() => evt.data.text);
-            } else {
-              setAiText((prev) => prev + evt.data.text);
-            }
-          } else if (evt.event === "error") {
-            if (firstDelta) {
-              setAiText(() => evt.data.message, "error");
-            } else {
-              appendLine("error", evt.data.message);
-            }
-          } else if (evt.event === "done") {
-            if (firstDelta) {
-              setAiText(() => "(No response received.)");
-            }
-          }
-        }
-      } finally {
-        setIsStreaming(false);
-        abortRef.current = null;
-      }
-    },
-    [appendLine, appendMutableLine]
-  );
-
   const runCommand = useCallback(
-    async (raw: string) => {
+    (raw: string) => {
       const trimmed = raw.trim();
       appendLine("input", raw);
 
@@ -151,7 +90,6 @@ export default function Terminal({
 
       const spaceIdx = trimmed.indexOf(" ");
       const cmd = (spaceIdx === -1 ? trimmed : trimmed.slice(0, spaceIdx)).toLowerCase();
-      const arg = spaceIdx === -1 ? "" : trimmed.slice(spaceIdx + 1).trim();
 
       switch (cmd) {
         case "help":
@@ -172,9 +110,6 @@ export default function Terminal({
         case "experience":
           appendLine("output", experienceText());
           break;
-        case "ask":
-          await runAsk(arg);
-          break;
         case "clear":
           setLines([]);
           break;
@@ -189,19 +124,14 @@ export default function Terminal({
           );
       }
     },
-    [appendLine, onGoHome, runAsk]
+    [appendLine, onGoHome]
   );
 
   const submit = useCallback(() => {
-    if (isStreaming) return;
     const value = input;
     setInput("");
-    void runCommand(value);
-  }, [input, isStreaming, runCommand]);
-
-  const stopStreaming = useCallback(() => {
-    abortRef.current?.abort();
-  }, []);
+    runCommand(value);
+  }, [input, runCommand]);
 
   const navigateHistory = useCallback(
     (direction: -1 | 1) => {
@@ -250,23 +180,6 @@ export default function Terminal({
         return;
       }
 
-      if (e.key === "Escape") {
-        if (isStreaming) {
-          e.preventDefault();
-          stopStreaming();
-        }
-        return;
-      }
-
-      if (e.ctrlKey && (e.key === "c" || e.key === "C")) {
-        if (isStreaming) {
-          e.preventDefault();
-          stopStreaming();
-        }
-        // Otherwise let the browser handle Ctrl+C (e.g. copy selection) normally.
-        return;
-      }
-
       if (e.key === "Tab") {
         // Only autocomplete the first word; don't trap focus otherwise —
         // if there's nothing to complete, let Tab move focus as normal.
@@ -282,18 +195,14 @@ export default function Terminal({
         // matches.length === 0: fall through, Tab moves focus normally.
       }
     },
-    [appendLine, input, isStreaming, navigateHistory, stopStreaming, submit]
+    [appendLine, input, navigateHistory, submit]
   );
 
   const runShortcut = useCallback(
     (name: string) => {
       inputRef.current?.focus();
-      if (name === "ask") {
-        setInput("ask ");
-        return;
-      }
       setInput("");
-      void runCommand(name);
+      runCommand(name);
     },
     [runCommand]
   );
@@ -335,24 +244,9 @@ export default function Terminal({
             autoComplete="off"
             autoCapitalize="off"
             aria-label="Terminal command input"
-            placeholder={
-              isStreaming
-                ? "Streaming a response — press Esc or Ctrl+C to stop"
-                : "Type a command, e.g. help"
-            }
-            disabled={false}
-            readOnly={isStreaming}
+            placeholder="Type a command, e.g. help"
             className="flex-1 bg-transparent font-mono text-sm text-term-fg placeholder:text-term-fg-dim focus:outline-none"
           />
-          {isStreaming && (
-            <button
-              type="button"
-              onClick={stopStreaming}
-              className="rounded border border-term-border px-2 py-1 font-mono text-xs text-term-fg-dim hover:border-term-accent-dim hover:text-term-fg"
-            >
-              Stop
-            </button>
-          )}
         </div>
 
         <div
@@ -390,15 +284,10 @@ function LineView({ line }: { line: TerminalLine }) {
       ? "text-[#e2726b]"
       : line.kind === "system"
         ? "text-term-fg-dim"
-        : line.kind === "ai"
-          ? "text-term-fg"
-          : "text-term-fg";
+        : "text-term-fg";
 
   return (
     <div className={`mb-2 whitespace-pre-wrap break-words ${toneClass}`}>
-      {line.kind === "ai" && (
-        <span className="mr-1 text-term-accent">ai&gt;</span>
-      )}
       {line.text}
     </div>
   );

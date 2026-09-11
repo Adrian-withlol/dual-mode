@@ -26,11 +26,6 @@ export const COMMANDS: CommandSpec[] = [
     usage: "experience",
     description: "Show verified experience.",
   },
-  {
-    name: "ask",
-    usage: "ask [question]",
-    description: "Stream an AI answer about Adrian's background.",
-  },
   { name: "clear", usage: "clear", description: "Clear the terminal output." },
   { name: "home", usage: "home", description: "Return to the overview." },
 ];
@@ -45,9 +40,8 @@ export function helpText(): string {
     ...lines,
     "",
     "Tips:",
-    "  ↑ / ↓        Browse command history",
-    "  Tab          Autocomplete a command name",
-    "  Esc / Ctrl+C Stop an in-progress AI response",
+    "  ↑ / ↓   Browse command history",
+    "  Tab     Autocomplete a command name",
     "",
     "This terminal explores the same content as the overview page — nothing here",
     "requires command-line experience. Tap a command below if you'd rather not type.",
