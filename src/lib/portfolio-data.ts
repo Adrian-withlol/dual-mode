@@ -173,9 +173,8 @@ export const portfolioData: PortfolioData = {
     },
   ],
   contact: [
-    // Add public contact links here, e.g.:
-    // { label: "GitHub", href: "https://github.com/your-username" },
-    // { label: "LinkedIn", href: "https://linkedin.com/in/your-profile" },
+    { label: "GitHub", href: "https://github.com/Adrian-withlol" },
+    { label: "LinkedIn", href: "https://www.linkedin.com/in/adrian-vela-351a86433" },
   ],
 };
 
