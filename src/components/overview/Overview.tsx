@@ -211,8 +211,11 @@ export default function Overview({
                   {p.tech.join(", ")}
                 </p>
               )}
-              {p.code && (
-                <details className="group mt-5 max-w-[72ch]">
+              {p.code?.map((c) => (
+                <details
+                  key={c.filename}
+                  className="group mt-3 max-w-[72ch] first-of-type:mt-5"
+                >
                   <summary className="inline-flex min-h-11 cursor-pointer list-none items-center gap-2 font-mono text-sm text-accent-strong underline decoration-hairline underline-offset-4 transition-colors hover:decoration-accent [&::-webkit-details-marker]:hidden [&::marker]:content-none">
                     <span
                       aria-hidden
@@ -220,18 +223,18 @@ export default function Overview({
                     >
                       ›
                     </span>
-                    View the code
+                    {c.label}
                   </summary>
                   <div className="mt-3 overflow-hidden rounded-lg border border-term-border bg-term-bg">
                     <p className="border-b border-term-border px-4 py-2 font-mono text-xs text-term-fg-dim">
-                      {p.code.filename}
+                      {c.filename}
                     </p>
                     <pre className="term-scrollbar max-h-[28rem] overflow-auto p-4 font-mono text-[13px] leading-relaxed text-term-fg">
-                      <code>{p.code.source}</code>
+                      <code>{c.source}</code>
                     </pre>
                   </div>
                 </details>
-              )}
+              ))}
               {p.link && (
                 <a
                   href={p.link}

@@ -48,3 +48,49 @@ void loop() {
   prevSwitchState = switchState;
 }
 `;
+
+/** Variation: flashes all six LEDs in the rhythm of the Jingle Bells chorus. */
+export const jingleBellsSketch = `const int beat = 350;  // Smaller = faster
+
+// Relative note lengths for the chorus.
+// 0 marks a pause between phrases.
+const int rhythm[] = {
+  1, 1, 2,  1, 1, 2,  1, 1, 1, 1, 4, 0,
+  1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 0,
+  1, 1, 2,  1, 1, 2,  1, 1, 1, 1, 4, 0,
+  1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 4
+};
+
+void setLights(int state) {
+  for (int pin = 2; pin <= 7; pin++) {
+    digitalWrite(pin, state);
+  }
+}
+
+void setup() {
+  for (int pin = 2; pin <= 7; pin++) {
+    pinMode(pin, OUTPUT);
+  }
+}
+
+void loop() {
+  int count = sizeof(rhythm) / sizeof(rhythm[0]);
+
+  for (int i = 0; i < count; i++) {
+    if (rhythm[i] == 0) {
+      setLights(LOW);
+      delay(beat);
+    } else {
+      int duration = rhythm[i] * beat;
+
+      setLights(HIGH);
+      delay(duration * 3 / 4);
+
+      setLights(LOW);
+      delay(duration / 4);
+    }
+  }
+
+  delay(1500);  // Pause before repeating
+}
+`;

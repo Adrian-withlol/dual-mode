@@ -6,7 +6,10 @@
  * duplicated. Keep every claim here honest and verifiable.
  */
 
-import { intervalTimerSketch } from "./sketches/interval-timer";
+import {
+  intervalTimerSketch,
+  jingleBellsSketch,
+} from "./sketches/interval-timer";
 
 export type SkillLevel = "learning" | "foundational" | "comfortable";
 
@@ -37,12 +40,14 @@ export interface Project {
   tech: string[];
   link?: string;
   image?: ProjectImage;
-  code?: ProjectCode;
+  code?: ProjectCode[];
   /** Variations tried beyond the main build. */
   experiments?: string[];
 }
 
 export interface ProjectCode {
+  /** Button text, e.g. "View the code". */
+  label: string;
   filename: string;
   source: string;
 }
@@ -147,12 +152,23 @@ export const portfolioData: PortfolioData = {
         "Tilting the board resets the timer.",
       ],
       experiments: [
-        "Made it play Jingle Bells.",
+        "Reprogrammed the LEDs to flash in the rhythm of the Jingle Bells chorus.",
         "Changed the time periods to see how the timer behaved at different intervals.",
         "Reworked the reset so it runs without the tilt sensor, making the timer fully automatic.",
       ],
       tech: ["Arduino", "C++", "Breadboard prototyping"],
-      code: { filename: "interval_timer.ino", source: intervalTimerSketch },
+      code: [
+        {
+          label: "View the timer code",
+          filename: "interval_timer.ino",
+          source: intervalTimerSketch,
+        },
+        {
+          label: "View the Jingle Bells code",
+          filename: "jingle_bells_lights.ino",
+          source: jingleBellsSketch,
+        },
+      ],
       image: {
         src: "/projects/arduino-interval-timer.jpg",
         alt: "Arduino interval timer on a breadboard in a dark room, with two of its six red LEDs lit and jumper wires arching over the board.",
