@@ -6,6 +6,8 @@
  * duplicated. Keep every claim here honest and verifiable.
  */
 
+import { intervalTimerSketch } from "./sketches/interval-timer";
+
 export type SkillLevel = "learning" | "foundational" | "comfortable";
 
 export interface Skill {
@@ -35,6 +37,14 @@ export interface Project {
   tech: string[];
   link?: string;
   image?: ProjectImage;
+  code?: ProjectCode;
+  /** Variations tried beyond the main build. */
+  experiments?: string[];
+}
+
+export interface ProjectCode {
+  filename: string;
+  source: string;
 }
 
 export interface ExperienceEntry {
@@ -129,9 +139,20 @@ export const portfolioData: PortfolioData = {
       status: "prototype",
       statusLabel: "Working prototype",
       summary:
-        "An Arduino timer that tracks 10-minute intervals, prototyped on a breadboard with a row of six LEDs.",
-      details: [],
-      tech: ["Arduino", "Breadboard prototyping", "LEDs"],
+        "An Arduino timer that lights one of six LEDs every 10 minutes, prototyped on a breadboard.",
+      details: [
+        "Based on the Digital Hourglass project from the Arduino Starter Kit, then modified.",
+        "Uses millis() instead of delay() for timing, so the board keeps reading the tilt sensor while it counts.",
+        "When all six LEDs are lit (one hour), the row clears and the count starts over.",
+        "Tilting the board resets the timer.",
+      ],
+      experiments: [
+        "Made it play Jingle Bells.",
+        "Changed the time periods to see how the timer behaved at different intervals.",
+        "Reworked the reset so it runs without the tilt sensor, making the timer fully automatic.",
+      ],
+      tech: ["Arduino", "C++", "Breadboard prototyping"],
+      code: { filename: "interval_timer.ino", source: intervalTimerSketch },
       image: {
         src: "/projects/arduino-interval-timer.jpg",
         alt: "Arduino interval timer on a breadboard in a dark room, with two of its six red LEDs lit and jumper wires arching over the board.",

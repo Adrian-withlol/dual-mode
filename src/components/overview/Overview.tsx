@@ -185,10 +185,52 @@ export default function Overview({
                   ))}
                 </ul>
               )}
+              {p.experiments && p.experiments.length > 0 && (
+                <div className="mt-5 max-w-[62ch]">
+                  <h4 className="text-sm font-semibold text-ink">
+                    What I tried after
+                  </h4>
+                  <ul className="mt-2 space-y-2">
+                    {p.experiments.map((ex) => (
+                      <li
+                        key={ex}
+                        className="flex gap-3 text-sm text-ink-muted"
+                      >
+                        <span
+                          aria-hidden
+                          className="mt-[0.65em] h-px w-3 shrink-0 bg-accent"
+                        />
+                        <span className="text-pretty">{ex}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
               {p.tech.length > 0 && (
                 <p className="mt-4 font-mono text-xs text-ink-faint">
                   {p.tech.join(", ")}
                 </p>
+              )}
+              {p.code && (
+                <details className="group mt-5 max-w-[72ch]">
+                  <summary className="inline-flex min-h-11 cursor-pointer list-none items-center gap-2 font-mono text-sm text-accent-strong underline decoration-hairline underline-offset-4 transition-colors hover:decoration-accent [&::-webkit-details-marker]:hidden [&::marker]:content-none">
+                    <span
+                      aria-hidden
+                      className="inline-block transition-transform duration-200 group-open:rotate-90"
+                    >
+                      ›
+                    </span>
+                    View the code
+                  </summary>
+                  <div className="mt-3 overflow-hidden rounded-lg border border-term-border bg-term-bg">
+                    <p className="border-b border-term-border px-4 py-2 font-mono text-xs text-term-fg-dim">
+                      {p.code.filename}
+                    </p>
+                    <pre className="term-scrollbar max-h-[28rem] overflow-auto p-4 font-mono text-[13px] leading-relaxed text-term-fg">
+                      <code>{p.code.source}</code>
+                    </pre>
+                  </div>
+                </details>
               )}
               {p.link && (
                 <a

@@ -10,7 +10,11 @@ export interface CommandSpec {
 export const COMMANDS: CommandSpec[] = [
   { name: "help", usage: "help", description: "Show this list of commands." },
   { name: "about", usage: "about", description: "Introduce Adrian." },
-  { name: "skills", usage: "skills", description: "List skills, honestly labeled." },
+  {
+    name: "skills",
+    usage: "skills",
+    description: "List skills, honestly labeled.",
+  },
   {
     name: "projects",
     usage: "projects",
@@ -33,7 +37,7 @@ export const COMMANDS: CommandSpec[] = [
 export function helpText(): string {
   const width = Math.max(...COMMANDS.map((c) => c.usage.length)) + 3;
   const lines = COMMANDS.map(
-    (c) => `  ${c.usage.padEnd(width)}${c.description}`
+    (c) => `  ${c.usage.padEnd(width)}${c.description}`,
   );
   return [
     "Available commands:",
@@ -81,6 +85,10 @@ export function projectsText(): string {
     ...d.projects.flatMap((p) => {
       const lines = [`${p.name} (${p.statusLabel})`, `  ${p.summary}`];
       p.details.forEach((det) => lines.push(`  - ${det}`));
+      if (p.experiments?.length) {
+        lines.push("  What I tried after:");
+        p.experiments.forEach((ex) => lines.push(`    - ${ex}`));
+      }
       if (p.tech.length > 0) lines.push(`  Tech: ${p.tech.join(", ")}`);
       if (p.link) lines.push(`  Link: ${p.link}`);
       return [...lines, ""];
