@@ -3,7 +3,7 @@
  * social preview images. Update SITE_URL here if a custom domain is added —
  * nothing else needs to change.
  */
-export const SITE_URL = "https://dual-mode-one.vercel.app";
+export const SITE_URL = "https://avelaworks.online";
 export const SITE_NAME = "Adrian Vela Portfolio";
 export const SITE_DESCRIPTION =
   "Portfolio of Adrian Vela, a mechanical engineering student at UTRGV. Browse an editorial overview or explore an interactive terminal.";
