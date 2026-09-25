@@ -240,9 +240,11 @@ export default function Overview({
                   href={p.link}
                   target="_blank"
                   rel="noreferrer noopener"
-                  className="mt-4 inline-block text-sm text-accent-strong underline underline-offset-4 hover:text-accent"
+                  className="mt-5 inline-flex min-h-11 items-center gap-1.5 rounded-md border border-ink-faint px-4 font-mono text-sm text-accent-strong transition-[border-color,color,transform] duration-200 hover:border-accent hover:text-accent active:scale-[0.98]"
                 >
-                  View project →
+                  {p.linkLabel ?? "View project"}
+                  <span aria-hidden>↗</span>
+                  <span className="sr-only"> (opens in a new tab)</span>
                 </a>
               )}
             </article>

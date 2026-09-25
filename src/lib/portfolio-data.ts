@@ -39,6 +39,8 @@ export interface Project {
   details: string[];
   tech: string[];
   link?: string;
+  /** Text for the link button; defaults to "View project". */
+  linkLabel?: string;
   image?: ProjectImage;
   code?: ProjectCode[];
   /** Variations tried beyond the main build. */
@@ -188,6 +190,8 @@ export const portfolioData: PortfolioData = {
         "Actively developed, so features and structure are still changing.",
       ],
       tech: ["AI-assisted development"],
+      link: "https://planner.avelaworks.online",
+      linkLabel: "Try Lamplight",
     },
     {
       id: "sare-utrgv",
