@@ -105,7 +105,7 @@ export const portfolioData: PortfolioData = {
     "Coursework toward a mechanical engineering degree at UTRGV",
     "Learning MATLAB for engineering analysis",
     "Building foundational C++ experience",
-    "Tutoring calculus and precalculus through schoolhouse.world (since May 2026)",
+    "Tutoring precalculus through Calculus 3 on schoolhouse.world, helping students understand the concepts (since May 2026)",
     "Developing Lamplight Planner using AI coding tools",
     "Member of SARE UTRGV",
   ],
@@ -129,9 +129,9 @@ export const portfolioData: PortfolioData = {
       note: "Foundational experience. Comfortable with core syntax and basic programs, still building depth.",
     },
     {
-      name: "Math tutoring (calculus & precalculus)",
+      name: "Math tutoring (precalculus through Calculus 3)",
       level: "comfortable",
-      note: "Tutoring calculus and precalculus through schoolhouse.world since May 2026.",
+      note: "Tutoring every level from precalculus through Calculus 3 on schoolhouse.world since May 2026, with a focus on helping students understand the concepts better.",
     },
     {
       name: "AI-assisted software development",
@@ -221,11 +221,11 @@ export const portfolioData: PortfolioData = {
   experience: [
     {
       id: "schoolhouse-tutor",
-      role: "Math Tutor (Calculus & Precalculus)",
+      role: "Math Tutor (Precalculus through Calculus 3)",
       org: "schoolhouse.world",
       period: "Since May 2026",
       description:
-        "Volunteer tutor helping students work through calculus and precalculus concepts on the schoolhouse.world platform.",
+        "Volunteer tutor covering precalculus, Calculus 1, 2 and 3 on schoolhouse.world, helping students understand the concepts better.",
     },
     {
       id: "sare-member",
