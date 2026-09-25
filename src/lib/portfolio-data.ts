@@ -10,6 +10,7 @@ import {
   intervalTimerSketch,
   jingleBellsSketch,
 } from "./sketches/interval-timer";
+import type { LabConfig } from "./arduino/lab";
 
 export type SkillLevel = "learning" | "foundational" | "comfortable";
 
@@ -45,6 +46,8 @@ export interface Project {
   code?: ProjectCode[];
   /** Variations tried beyond the main build. */
   experiments?: string[];
+  /** Interactive simulator shown with the project (see src/lib/arduino/lab.ts). */
+  lab?: LabConfig;
 }
 
 export interface ProjectCode {
@@ -176,6 +179,35 @@ export const portfolioData: PortfolioData = {
         alt: "Arduino interval timer on a breadboard in a dark room, with two of its six red LEDs lit and jumper wires arching over the board.",
         width: 1600,
         height: 1200,
+      },
+      lab: {
+        title: "interval_timer.ino",
+        parts: [
+          { type: "led", pin: 2, color: "red", label: "10 min" },
+          { type: "led", pin: 3, color: "red", label: "20 min" },
+          { type: "led", pin: 4, color: "red", label: "30 min" },
+          { type: "led", pin: 5, color: "red", label: "40 min" },
+          { type: "led", pin: 6, color: "red", label: "50 min" },
+          { type: "led", pin: 7, color: "red", label: "60 min" },
+          { type: "tilt", pin: 8, label: "Tilt switch" },
+          { type: "piezo", pin: 9, label: "Piezo", virtual: true },
+        ],
+        sketches: [
+          {
+            id: "timer",
+            label: "10-minute timer",
+            source: intervalTimerSketch,
+            speed: 600,
+            note: "Running at 600×, so each 10-minute LED takes about a second. Tip the tilt switch to reset it.",
+          },
+          {
+            id: "jingle",
+            label: "Jingle Bells lights",
+            source: jingleBellsSketch,
+            speed: 1,
+            note: "All six LEDs flash the chorus rhythm. The real build has no speaker; the virtual piezo on pin 9 is there if you want to add tone() yourself.",
+          },
+        ],
       },
     },
     {

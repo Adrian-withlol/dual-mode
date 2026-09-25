@@ -7,6 +7,7 @@ import {
   useState,
   type KeyboardEvent,
 } from "react";
+import { useRouter } from "next/navigation";
 import {
   aboutText,
   educationText,
@@ -37,6 +38,7 @@ const MOBILE_SHORTCUTS = [
   "projects",
   "education",
   "experience",
+  "lab",
   "clear",
   "home",
 ];
@@ -58,6 +60,7 @@ export default function Terminal({
     { id: nextId(), kind: "system", text: WELCOME },
   ]);
   const [input, setInput] = useState("");
+  const router = useRouter();
   const [history, setHistory] = useState<string[]>([]);
 
   const inputRef = useRef<HTMLInputElement>(null);
@@ -113,6 +116,10 @@ export default function Terminal({
         case "clear":
           setLines([]);
           break;
+        case "lab":
+          appendLine("system", "Opening the Arduino Lab…");
+          router.push("/lab");
+          break;
         case "home":
           appendLine("system", "Returning to overview…");
           onGoHome();
@@ -124,7 +131,7 @@ export default function Terminal({
           );
       }
     },
-    [appendLine, onGoHome]
+    [appendLine, onGoHome, router]
   );
 
   const submit = useCallback(() => {

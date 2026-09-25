@@ -1,5 +1,18 @@
 import Image from "next/image";
+import Link from "next/link";
+import dynamic from "next/dynamic";
 import { portfolioData, SKILL_LEVEL_LABEL } from "@/lib/portfolio-data";
+
+// The simulator is client-only and loads when a project with a lab renders.
+const ArduinoLab = dynamic(() => import("@/components/lab/ArduinoLab"), {
+  ssr: false,
+  loading: () => (
+    <div
+      className="h-[34rem] animate-pulse rounded-xl border border-term-border bg-term-bg"
+      aria-hidden
+    />
+  ),
+});
 
 const statusStyles: Record<string, string> = {
   prototype: "text-accent-strong",
@@ -211,30 +224,59 @@ export default function Overview({
                   {p.tech.join(", ")}
                 </p>
               )}
-              {p.code?.map((c) => (
-                <details
-                  key={c.filename}
-                  className="group mt-3 max-w-[72ch] first-of-type:mt-5"
-                >
-                  <summary className="inline-flex min-h-11 cursor-pointer list-none items-center gap-2 font-mono text-sm text-accent-strong underline decoration-hairline underline-offset-4 transition-colors hover:decoration-accent [&::-webkit-details-marker]:hidden [&::marker]:content-none">
-                    <span
-                      aria-hidden
-                      className="inline-block transition-transform duration-200 group-open:rotate-90"
+              {p.lab && (
+                <section className="mt-6" aria-labelledby={`${p.id}-lab`}>
+                  <div className="mb-3 flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+                    <h4
+                      id={`${p.id}-lab`}
+                      className="text-sm font-semibold text-ink"
                     >
-                      ›
-                    </span>
-                    {c.label}
-                  </summary>
-                  <div className="mt-3 overflow-hidden rounded-lg border border-term-border bg-term-bg">
-                    <p className="border-b border-term-border px-4 py-2 font-mono text-xs text-term-fg-dim">
-                      {c.filename}
-                    </p>
-                    <pre className="term-scrollbar max-h-[28rem] overflow-auto p-4 font-mono text-[13px] leading-relaxed text-term-fg">
-                      <code>{c.source}</code>
-                    </pre>
+                      Try it in the browser
+                    </h4>
+                    <Link
+                      href={`/lab?from=${p.id}`}
+                      className="font-mono text-xs text-accent-strong underline underline-offset-4 hover:text-accent"
+                    >
+                      Open the full lab →
+                    </Link>
                   </div>
-                </details>
-              ))}
+                  <p className="mb-4 max-w-[62ch] text-sm text-ink-muted text-pretty">
+                    This runs the real sketch on a simulated board. Change the
+                    code, press the parts, or speed up time.
+                  </p>
+                  <ArduinoLab config={p.lab} />
+                  <noscript>
+                    <p className="mt-2 text-sm text-ink-muted">
+                      The simulator needs JavaScript.
+                    </p>
+                  </noscript>
+                </section>
+              )}
+              {!p.lab &&
+                p.code?.map((c) => (
+                  <details
+                    key={c.filename}
+                    className="group mt-3 max-w-[72ch] first-of-type:mt-5"
+                  >
+                    <summary className="inline-flex min-h-11 cursor-pointer list-none items-center gap-2 font-mono text-sm text-accent-strong underline decoration-hairline underline-offset-4 transition-colors hover:decoration-accent [&::-webkit-details-marker]:hidden [&::marker]:content-none">
+                      <span
+                        aria-hidden
+                        className="inline-block transition-transform duration-200 group-open:rotate-90"
+                      >
+                        ›
+                      </span>
+                      {c.label}
+                    </summary>
+                    <div className="mt-3 overflow-hidden rounded-lg border border-term-border bg-term-bg">
+                      <p className="border-b border-term-border px-4 py-2 font-mono text-xs text-term-fg-dim">
+                        {c.filename}
+                      </p>
+                      <pre className="term-scrollbar max-h-[28rem] overflow-auto p-4 font-mono text-[13px] leading-relaxed text-term-fg">
+                        <code>{c.source}</code>
+                      </pre>
+                    </div>
+                  </details>
+                ))}
               {p.link && (
                 <a
                   href={p.link}

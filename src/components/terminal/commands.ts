@@ -30,6 +30,11 @@ export const COMMANDS: CommandSpec[] = [
     usage: "experience",
     description: "Show verified experience.",
   },
+  {
+    name: "lab",
+    usage: "lab",
+    description: "Open the Arduino Lab and run sketches in the browser.",
+  },
   { name: "clear", usage: "clear", description: "Clear the terminal output." },
   { name: "home", usage: "home", description: "Return to the overview." },
 ];

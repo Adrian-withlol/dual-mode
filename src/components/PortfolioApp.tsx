@@ -3,15 +3,12 @@
 import { useCallback, useState } from "react";
 import Overview from "./overview/Overview";
 import Terminal from "./terminal/Terminal";
+import Link from "next/link";
 import Footer from "./Footer";
 
 export type View = "overview" | "terminal";
 
-export default function PortfolioApp({
-  initialView,
-}: {
-  initialView: View;
-}) {
+export default function PortfolioApp({ initialView }: { initialView: View }) {
   const [view, setView] = useState<View>(initialView);
 
   const goTo = useCallback((next: View) => {
@@ -42,7 +39,10 @@ export default function PortfolioApp({
           hidden={view !== "terminal"}
           className="mx-auto flex w-full max-w-5xl flex-1 flex-col px-0 pb-6 pt-4 sm:px-6"
         >
-          <Terminal active={view === "terminal"} onGoHome={() => goTo("overview")} />
+          <Terminal
+            active={view === "terminal"}
+            onGoHome={() => goTo("overview")}
+          />
         </div>
       </main>
 
@@ -74,25 +74,37 @@ function ViewSwitcher({
         >
           Adrian Vela
         </span>
-        <nav
-          aria-label="View switcher"
-          className={`flex items-center gap-1 rounded-full border p-1 ${
-            isTerminal ? "border-term-border" : "border-hairline"
-          }`}
-        >
-          <TabButton
-            label="Overview"
-            active={!isTerminal}
-            dark={isTerminal}
-            onClick={() => onChange("overview")}
-          />
-          <TabButton
-            label="Terminal"
-            active={isTerminal}
-            dark={isTerminal}
-            onClick={() => onChange("terminal")}
-          />
-        </nav>
+        <div className="flex items-center gap-3">
+          <Link
+            href="/lab"
+            className={`min-h-11 rounded-full px-3 text-sm font-medium transition-colors flex items-center ${
+              isTerminal
+                ? "text-term-fg-dim hover:text-term-fg"
+                : "text-ink-muted hover:text-ink"
+            }`}
+          >
+            Lab
+          </Link>
+          <nav
+            aria-label="View switcher"
+            className={`flex items-center gap-1 rounded-full border p-1 ${
+              isTerminal ? "border-term-border" : "border-hairline"
+            }`}
+          >
+            <TabButton
+              label="Overview"
+              active={!isTerminal}
+              dark={isTerminal}
+              onClick={() => onChange("overview")}
+            />
+            <TabButton
+              label="Terminal"
+              active={isTerminal}
+              dark={isTerminal}
+              onClick={() => onChange("terminal")}
+            />
+          </nav>
+        </div>
       </div>
     </header>
   );
