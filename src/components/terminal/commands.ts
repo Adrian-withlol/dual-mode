@@ -43,7 +43,7 @@ export function helpText(): string {
     "  ↑ / ↓   Browse command history",
     "  Tab     Autocomplete a command name",
     "",
-    "This terminal explores the same content as the overview page — nothing here",
+    "This terminal explores the same content as the overview page. Nothing here",
     "requires command-line experience. Tap a command below if you'd rather not type.",
   ].join("\n");
 }
@@ -51,7 +51,7 @@ export function helpText(): string {
 export function aboutText(): string {
   const d = portfolioData;
   return [
-    `${d.name} — ${d.headline}`,
+    `${d.name}, ${d.headline}`,
     `${d.location}`,
     "",
     d.summary,
@@ -64,7 +64,7 @@ export function aboutText(): string {
 export function skillsText(): string {
   const d = portfolioData;
   return [
-    "Skills (honestly labeled — no percentages, no invented mastery):",
+    "Skills (honestly labeled: no percentages, no invented mastery):",
     "",
     ...d.skills.flatMap((s) => [
       `${s.name} [${SKILL_LEVEL_LABEL[s.level]}]`,
@@ -79,7 +79,7 @@ export function projectsText(): string {
     "Projects:",
     "",
     ...d.projects.flatMap((p) => {
-      const lines = [`${p.name} — ${p.statusLabel}`, `  ${p.summary}`];
+      const lines = [`${p.name} (${p.statusLabel})`, `  ${p.summary}`];
       p.details.forEach((det) => lines.push(`  - ${det}`));
       if (p.tech.length > 0) lines.push(`  Tech: ${p.tech.join(", ")}`);
       if (p.link) lines.push(`  Link: ${p.link}`);
@@ -109,7 +109,7 @@ export function experienceText(): string {
     "Experience:",
     "",
     ...d.experience.flatMap((e) => [
-      `${e.role} — ${e.org}`,
+      `${e.role} at ${e.org}`,
       `  ${e.period}`,
       `  ${e.description}`,
       "",

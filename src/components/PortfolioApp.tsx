@@ -27,7 +27,11 @@ export default function PortfolioApp({
   }, []);
 
   return (
-    <div className="flex min-h-screen flex-col">
+    <div
+      className={`flex min-h-dvh flex-col transition-colors duration-300 ${
+        view === "terminal" ? "bg-term-bg" : ""
+      }`}
+    >
       <ViewSwitcher view={view} onChange={goTo} />
 
       <main className="flex-1">
@@ -36,7 +40,7 @@ export default function PortfolioApp({
         </div>
         <div
           hidden={view !== "terminal"}
-          className="mx-auto flex w-full max-w-4xl flex-1 flex-col px-0 pb-6 pt-4 sm:px-6"
+          className="mx-auto flex w-full max-w-5xl flex-1 flex-col px-0 pb-6 pt-4 sm:px-6"
         >
           <Terminal active={view === "terminal"} onGoHome={() => goTo("overview")} />
         </div>
@@ -64,7 +68,7 @@ function ViewSwitcher({
           : "border-hairline bg-paper/90 backdrop-blur"
       }`}
     >
-      <div className="mx-auto flex w-full max-w-4xl items-center justify-between px-6 py-3 sm:px-8">
+      <div className="mx-auto flex w-full max-w-5xl items-center justify-between px-6 py-3 sm:px-8">
         <span
           className={`font-mono text-sm ${isTerminal ? "text-term-fg" : "text-ink"}`}
         >

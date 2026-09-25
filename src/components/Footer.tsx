@@ -11,7 +11,7 @@ export default function Footer({ dark = false }: { dark?: boolean }) {
       className={`border-t ${dark ? "border-term-border bg-term-bg" : "border-hairline bg-paper"}`}
     >
       <div
-        className={`mx-auto flex w-full max-w-4xl flex-col gap-3 px-6 py-6 text-sm sm:flex-row sm:items-center sm:justify-between sm:px-8 ${
+        className={`mx-auto flex w-full max-w-5xl flex-col gap-3 px-6 py-6 text-sm sm:flex-row sm:items-center sm:justify-between sm:px-8 ${
           dark ? "text-term-fg-dim" : "text-ink-faint"
         }`}
       >

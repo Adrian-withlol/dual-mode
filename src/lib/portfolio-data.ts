@@ -2,7 +2,7 @@
  * Single source of truth for portfolio content.
  *
  * This file feeds the Overview page and every terminal command. Edit this
- * file to update the site — there is nowhere else content should be
+ * file to update the site; there is nowhere else content should be
  * duplicated. Keep every claim here honest and verifiable.
  */
 
@@ -14,7 +14,16 @@ export interface Skill {
   note: string;
 }
 
-export type ProjectStatus = "in-progress" | "planned" | "documented-later";
+export type ProjectStatus =
+  "prototype" | "in-progress" | "planned" | "documented-later";
+
+export interface ProjectImage {
+  /** Path under /public. */
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+}
 
 export interface Project {
   id: string;
@@ -25,6 +34,7 @@ export interface Project {
   details: string[];
   tech: string[];
   link?: string;
+  image?: ProjectImage;
 }
 
 export interface ExperienceEntry {
@@ -99,7 +109,7 @@ export const portfolioData: PortfolioData = {
     {
       name: "C++",
       level: "foundational",
-      note: "Foundational experience — comfortable with core syntax and basic programs, still building depth.",
+      note: "Foundational experience. Comfortable with core syntax and basic programs, still building depth.",
     },
     {
       name: "Math tutoring (calculus & precalculus)",
@@ -109,10 +119,26 @@ export const portfolioData: PortfolioData = {
     {
       name: "AI-assisted software development",
       level: "foundational",
-      note: "Building Lamplight Planner using AI coding tools — learning software development practices hands-on.",
+      note: "Building Lamplight Planner using AI coding tools and learning software development practices hands-on.",
     },
   ],
   projects: [
+    {
+      id: "arduino-interval-timer",
+      name: "10-minute interval timer",
+      status: "prototype",
+      statusLabel: "Working prototype",
+      summary:
+        "An Arduino timer that tracks 10-minute intervals, prototyped on a breadboard with a row of six LEDs.",
+      details: [],
+      tech: ["Arduino", "Breadboard prototyping", "LEDs"],
+      image: {
+        src: "/projects/arduino-interval-timer.jpg",
+        alt: "Arduino interval timer on a breadboard in a dark room, with two of its six red LEDs lit and jumper wires arching over the board.",
+        width: 1600,
+        height: 1200,
+      },
+    },
     {
       id: "lamplight-planner",
       name: "Lamplight Planner",
@@ -122,7 +148,7 @@ export const portfolioData: PortfolioData = {
         "A personal planning application being developed with the help of AI coding tools.",
       details: [
         "Built primarily as a way to learn real-world software development by shipping something and iterating on it.",
-        "Actively developed — features and structure are still changing.",
+        "Actively developed, so features and structure are still changing.",
       ],
       tech: ["AI-assisted development"],
     },
@@ -130,7 +156,7 @@ export const portfolioData: PortfolioData = {
       id: "sare-utrgv",
       name: "SARE UTRGV",
       status: "documented-later",
-      statusLabel: "Member — details coming later",
+      statusLabel: "Member, details coming later",
       summary: "Member of SARE UTRGV.",
       details: [
         "Joined the organization; specific subsystem contributions are not yet documented here.",
@@ -142,7 +168,7 @@ export const portfolioData: PortfolioData = {
       id: "flagship-project",
       name: "Flagship engineering project",
       status: "planned",
-      statusLabel: "Planned — showcase coming in a later phase",
+      statusLabel: "Planned for a later phase",
       summary:
         "A more detailed engineering project showcase is planned for a later phase of this site.",
       details: [
@@ -171,6 +197,9 @@ export const portfolioData: PortfolioData = {
   ],
   contact: [
     { label: "GitHub", href: "https://github.com/Adrian-withlol" },
-    { label: "LinkedIn", href: "https://www.linkedin.com/in/adrian-vela-351a86433" },
+    {
+      label: "LinkedIn",
+      href: "https://www.linkedin.com/in/adrian-vela-351a86433",
+    },
   ],
 };

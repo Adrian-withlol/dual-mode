@@ -26,7 +26,7 @@ interface TerminalLine {
 }
 
 const WELCOME = [
-  "Adrian Vela — interactive portfolio terminal.",
+  "Adrian Vela: interactive portfolio terminal.",
   "Type 'help' to see everything you can do, or tap a command below.",
 ].join("\n");
 
@@ -214,7 +214,7 @@ export default function Terminal({
         <span className="h-3 w-3 rounded-full bg-[#e8c468]/70" />
         <span className="h-3 w-3 rounded-full bg-term-accent/70" />
         <span className="ml-3 font-mono text-xs text-term-fg-dim">
-          adrian@portfolio — terminal
+          adrian@portfolio: terminal
         </span>
       </div>
 

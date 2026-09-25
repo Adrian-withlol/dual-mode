@@ -18,7 +18,7 @@ export default function ConsentBanner() {
       <div className="mx-auto flex w-full max-w-4xl flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <p className="text-sm text-ink-muted">
           This site can use optional, privacy-friendly analytics (page views
-          only — no ads, no tracking cookies) to help me understand what&apos;s
+          only, no ads, no tracking cookies) to help me understand what&apos;s
           useful. It stays off until you choose. See the{" "}
           <Link
             href="/privacy"

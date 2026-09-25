@@ -19,8 +19,8 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Adrian Vela — Mechanical Engineering Student",
-    template: `%s — ${SITE_NAME}`,
+    default: "Adrian Vela | Mechanical Engineering Student",
+    template: `%s | ${SITE_NAME}`,
   },
   description: SITE_DESCRIPTION,
   alternates: {
@@ -30,12 +30,12 @@ export const metadata: Metadata = {
     type: "website",
     url: SITE_URL,
     siteName: SITE_NAME,
-    title: "Adrian Vela — Mechanical Engineering Student",
+    title: "Adrian Vela | Mechanical Engineering Student",
     description: SITE_DESCRIPTION,
   },
   twitter: {
     card: "summary_large_image",
-    title: "Adrian Vela — Mechanical Engineering Student",
+    title: "Adrian Vela | Mechanical Engineering Student",
     description: SITE_DESCRIPTION,
   },
 };
