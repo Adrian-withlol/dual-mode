@@ -10,6 +10,7 @@ import {
   intervalTimerSketch,
   jingleBellsSketch,
 } from "./sketches/interval-timer";
+import { deskFanSketch } from "./sketches/desk-fan";
 import type { LabConfig } from "./arduino/lab";
 
 export type SkillLevel = "learning" | "foundational" | "comfortable";
@@ -46,8 +47,17 @@ export interface Project {
   code?: ProjectCode[];
   /** Variations tried beyond the main build. */
   experiments?: string[];
+  /** Problems hit during the build and how each was solved. */
+  challenges?: ProjectChallenge[];
+  /** One-sentence takeaway shown after the challenges. */
+  lesson?: string;
   /** Interactive simulator shown with the project (see src/lib/arduino/lab.ts). */
   lab?: LabConfig;
+}
+
+export interface ProjectChallenge {
+  problem: string;
+  fix: string;
 }
 
 export interface ProjectCode {
@@ -143,6 +153,51 @@ export const portfolioData: PortfolioData = {
     },
   ],
   projects: [
+    {
+      id: "arduino-desk-fan",
+      name: "Auto desk fan",
+      status: "prototype",
+      statusLabel: "Working prototype",
+      summary:
+        "An Arduino thermostat that turns a small fan on above a temperature I choose and spins it faster the hotter the room gets.",
+      details: [
+        "Built on a breadboard using only parts from the Arduino Starter Kit, following a wiring guide and sketch.",
+        "A TMP36 sensor reads the room temperature and a knob sets the target, anywhere from 64 to 90 °F.",
+        "The fan turns on 0.9 °F above the target and off 0.9 °F below it, so it doesn't flicker on and off when the room sits right at the target.",
+        "Speed climbs from a slow spin to full power at 7.2 °F over the target, using PWM on pin 9 through an IRF520 MOSFET, since an Arduino pin can't power a motor directly.",
+        "A 16×2 LCD screen shows the current temperature, the target, and the fan speed.",
+      ],
+      challenges: [
+        {
+          problem:
+            "My potentiometers didn't fit the planned layout. The guide assumed knobs with three legs in a straight line, but mine had a triangle footprint.",
+          fix: "Once I understood that parts connect by breadboard column, not by being next to each other, I moved both knobs to empty columns and ran one wire from each leg. I also ruled out a shortcut that would have tied the knobs into the LCD's data lines.",
+        },
+        {
+          problem:
+            "The screen showed a row of solid blocks on top and nothing on the bottom.",
+          fix: "That pattern means the LCD has power but was never started by the Arduino, so I left the power wiring alone and checked the upload, reset, and signal wires in order. Uploading the sketch correctly fixed it.",
+        },
+      ],
+      lesson:
+        "Read a symptom for what it rules out before changing anything. The solid blocks proved the power was fine, which saved me from rewiring the one part that already worked.",
+      tech: ["Arduino", "C++", "Breadboard prototyping", "PWM motor control"],
+      code: [
+        {
+          label: "View the fan code",
+          filename: "desk_fan.ino",
+          source: deskFanSketch,
+        },
+      ],
+      image: {
+        src: "/projects/arduino-desk-fan.jpg",
+        alt: "Auto desk fan on a breadboard: an Arduino Uno wired to a blue 16×2 LCD reading \"Now 79.6°F, Set 82.4°F, OFF\", with two blue knobs, the MOSFET, and the small DC motor beside the board.",
+        width: 1600,
+        height: 1200,
+      },
+      link: "https://guides.avelaworks.online/desk-fan",
+      linkLabel: "See the build guide I used",
+    },
     {
       id: "arduino-interval-timer",
       name: "10-minute interval timer",

@@ -185,6 +185,16 @@ export default function Overview({
               <p className="mt-2 max-w-[62ch] text-ink-muted text-pretty">
                 {p.summary}
               </p>
+              {p.image && p.id !== featured?.id && (
+                <Image
+                  src={p.image.src}
+                  alt={p.image.alt}
+                  width={p.image.width}
+                  height={p.image.height}
+                  sizes="(min-width: 640px) 480px, 100vw"
+                  className="mt-5 aspect-[4/3] w-full max-w-[30rem] rounded-lg bg-term-bg object-cover"
+                />
+              )}
               {p.details.length > 0 && (
                 <ul className="mt-4 max-w-[62ch] space-y-2">
                   {p.details.map((det) => (
@@ -217,6 +227,38 @@ export default function Overview({
                       </li>
                     ))}
                   </ul>
+                </div>
+              )}
+              {p.challenges && p.challenges.length > 0 && (
+                <div className="mt-5 max-w-[62ch]">
+                  <h4 className="text-sm font-semibold text-ink">
+                    What went wrong and how I fixed it
+                  </h4>
+                  <ul className="mt-2 space-y-3">
+                    {p.challenges.map((c) => (
+                      <li
+                        key={c.problem}
+                        className="flex gap-3 text-sm text-ink-muted"
+                      >
+                        <span
+                          aria-hidden
+                          className="mt-[0.65em] h-px w-3 shrink-0 bg-accent"
+                        />
+                        <span className="text-pretty">
+                          <span className="text-ink">{c.problem}</span>{" "}
+                          {c.fix}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                  {p.lesson && (
+                    <p className="mt-3 border-l-2 border-accent pl-3 text-sm text-ink-muted text-pretty">
+                      <span className="font-semibold text-ink">
+                        What I took away:
+                      </span>{" "}
+                      {p.lesson}
+                    </p>
+                  )}
                 </div>
               )}
               {p.tech.length > 0 && (

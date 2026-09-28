@@ -94,6 +94,11 @@ export function projectsText(): string {
         lines.push("  What I tried after:");
         p.experiments.forEach((ex) => lines.push(`    - ${ex}`));
       }
+      if (p.challenges?.length) {
+        lines.push("  What went wrong and how I fixed it:");
+        p.challenges.forEach((c) => lines.push(`    - ${c.problem} ${c.fix}`));
+        if (p.lesson) lines.push(`  What I took away: ${p.lesson}`);
+      }
       if (p.tech.length > 0) lines.push(`  Tech: ${p.tech.join(", ")}`);
       if (p.link) lines.push(`  Link: ${p.link}`);
       return [...lines, ""];
