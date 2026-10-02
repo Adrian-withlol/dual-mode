@@ -28,14 +28,6 @@ Keep entries honest: skill levels use `"learning" | "foundational" |
 "comfortable"` (no invented percentages), and project statuses use real
 progress labels, not marketing language.
 
-## Setup
-
-```bash
-npm install
-npm run dev
-```
-
-Open [http://localhost:3000](http://localhost:3000).
 
 ## Deploying to Vercel (GitHub-connected)
 
